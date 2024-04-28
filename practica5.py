@@ -1,9 +1,12 @@
 import cv2
-import matplotlib.pyplot as plt  
+import matplotlib.pyplot as plt
+import sounddevice as sd
+import soundfile as sf
 
 # Función para convertir una imagen a escala de grises
 def convertir_a_grises(imagen):
     imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+    print(f"Imagne gris: {imagen_gris}")
     return imagen_gris
 
 # Función para binarizar una imagen
@@ -13,8 +16,33 @@ def binarizar_imagen(imagen):
     
     # Aplicar umbralización para binarizar la imagen
     _, imagen_binarizada = cv2.threshold(imagen_gris, 127, 255, cv2.THRESH_BINARY)
+    imagen_binarizada = imagen_binarizada/255
     
+    print(f"Imagen blanco negro: {imagen_binarizada}")
     return imagen_binarizada
+
+def grabar_audio(duracion, fs):
+    print("Grabando...")
+
+    # Grabar audio en dos canales
+    audio = sd.rec(int(duracion * fs), samplerate=fs, channels=2, dtype='float64')
+    sd.wait()  # Esperar hasta que la grabación se complete
+    print("Grabación completada.")
+    print(f"Grabacion dos canales: {audio}")
+    sf.write("grabacion_dos_canales.wav", audio, fs)
+    print(f"Grabación guardada.")
+
+def convertir_mono(nombre_archivo_entrada, nombre_archivo_salida):
+    # Cargar el archivo de audio de dos canales
+    audio, fs = sf.read(nombre_archivo_entrada)
+
+    # Promediar los datos de los dos canales para obtener un solo canal
+    audio_mono = (audio[:, 0] + audio[:, 1]) / 2.0
+
+    print(f"Conversion un canal: {audio_mono}")
+    # Guardar la grabación en un archivo WAV mono
+    sf.write(nombre_archivo_salida, audio_mono, fs)
+    print(f"Archivo convertido y guardado como '{nombre_archivo_salida}'.")
 
 def main():
     # Ruta de la imagen a leer
@@ -57,6 +85,11 @@ def main():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    print("hola mundo")
+    print("Inicio de grabacion")
+    duracion = 10 # Durancion de grabacion en segundos
+    fs = 44100 #frecuencia de muestreo
+    grabar_audio(duracion, fs)
+    convertir_mono("grabacion_dos_canales.wav", "grabacion_mono.wav")
+
 if __name__ == "__main__":
     main()
