@@ -6,7 +6,7 @@ import soundfile as sf
 # Función para convertir una imagen a escala de grises
 def convertir_a_grises(imagen):
     imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    print(f"Imagne gris: {imagen_gris}")
+    print(f"Imagen gris: {imagen_gris}")
     return imagen_gris
 
 # Función para binarizar una imagen
@@ -15,8 +15,7 @@ def binarizar_imagen(imagen):
     imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
     
     # Aplicar umbralización para binarizar la imagen
-    _, imagen_binarizada = cv2.threshold(imagen_gris, 127, 255, cv2.THRESH_BINARY)
-    imagen_binarizada = imagen_binarizada/255
+    _, imagen_binarizada = cv2.threshold(imagen_gris, 127, 1, cv2.THRESH_BINARY_INV)
     
     print(f"Imagen blanco negro: {imagen_binarizada}")
     return imagen_binarizada
@@ -50,7 +49,7 @@ def main():
 
     # Leer la imagen
     imagen = cv2.imread(ruta_imagen)
-
+    print(imagen)
     # Verificar si la imagen se ha leído correctamente
     if imagen is None:
         print("Imagen no encontrada")
@@ -81,15 +80,16 @@ def main():
       
     plt.show()
          
-    # Esperar a que se presione una tecla y luego cerrar las ventanas
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
+    # Grabacion de sonido    
     print("Inicio de grabacion")
     duracion = 10 # Durancion de grabacion en segundos
-    fs = 44100 #frecuencia de muestreo
+    fs = 8000 #frecuencia de muestreo
     grabar_audio(duracion, fs)
     convertir_mono("grabacion_dos_canales.wav", "grabacion_mono.wav")
+
+    # Leer audio
+    print("Leyendo y convirtiendo audio estereo a mono")
+    convertir_mono("audio_estereo.mp3", "audio_mono.mp3")
 
 if __name__ == "__main__":
     main()
