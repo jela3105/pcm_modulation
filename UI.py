@@ -19,10 +19,10 @@ class GUI:
         opcion_seleccionada = self.dropdown2.get()
         print("N seleccionado de dropdown 2:", opcion_seleccionada)
 
-    def reproducir_audio(self, event):
+    def reproducir_audio(self):
         print("reproducir audio original")
 
-    def reproducir_audio_recuantizado(self, event):
+    def reproducir_audio_recuantizado(self):
         print("reproducir audio recuantizado")
 
     def crear_widgets(self):
@@ -39,6 +39,7 @@ class GUI:
 
         options = [str(i) for i in range(1, 9)]
         self.selected_option1 = tk.StringVar()
+        self.selected_option1.set('8')
         self.dropdown1 = ttk.Combobox(self.frame2, textvariable=self.selected_option1, values=options)
         self.dropdown1.bind("<<ComboboxSelected>>", self.seleccion_dropdown1)
         self.dropdown1.pack(side=tk.LEFT, padx=10)
@@ -54,6 +55,7 @@ class GUI:
         self.frame3.pack(fill=tk.BOTH)
 
         self.selected_option2 = tk.StringVar()
+        self.selected_option2.set('8')
         self.dropdown2 = ttk.Combobox(self.frame3, textvariable=self.selected_option2, values=options)
         self.dropdown2.bind("<<ComboboxSelected>>", self.seleccion_dropdown2)
 
@@ -62,7 +64,7 @@ class GUI:
         # Cargamos las imágenes
         self.title_label1 = tk.Label(self.frame3, text="Imagen original")
         self.title_label1.pack(side=tk.LEFT, padx=9)
-        self.image1 = Image.open("imagen2.jpg")  # Reemplaza "image1.jpg" por la ruta de tu imagen
+        self.image1 = Image.open("imagen_gris.jpg")  # Reemplaza "image1.jpg" por la ruta de tu imagen
         self.image1 = self.image1.resize((300, 200), Image.ADAPTIVE)
         self.photo1 = ImageTk.PhotoImage(self.image1)
         self.label_image1 = tk.Label(self.frame3, image=self.photo1)
@@ -71,7 +73,7 @@ class GUI:
 
         self.title_label2 = tk.Label(self.frame3, text="Imagen recuantizada")
         self.title_label2.pack(side=tk.TOP, padx=10)
-        self.image2 = Image.open("imagen2.jpg")  # Reemplaza "image2.jpg" por la ruta de tu imagen
+        self.image2 = Image.open("imagen_gris.jpg")  # Reemplaza "image2.jpg" por la ruta de tu imagen
         self.image2 = self.image2.resize((300, 200), Image.ADAPTIVE)
         self.photo2 = ImageTk.PhotoImage(self.image2)
         self.label_image2 = tk.Label(self.frame3, image=self.photo2)

@@ -62,6 +62,7 @@ def leer_datos():
 
     # Convertir la imagen a escala de grises
     imagen_gris = convertir_a_grises(imagen)
+    cv2.imwrite("imagen_gris.jpg", imagen_gris)
             
     plt.figure(figsize=(12, 4))
         
