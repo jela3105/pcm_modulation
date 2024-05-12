@@ -17,13 +17,14 @@ class GUI:
         opcion_seleccionada = self.dropdown1.get()
         print("N seleccionado de dropdown 1:", opcion_seleccionada)
         audio, fs = sf.read("audio_mono.mp3")
-        audio_cuantizado = cuantizacion(int(opcion_seleccionada), audio)
+        audio_cuantizado = cuantizacion(int(opcion_seleccionada), audio, False)
         audio_cuantizado.imprimir_valores()
+        sf.write("audio_recuantizado.mp3", audio_cuantizado.recuantizar_data(), fs)
 
     def seleccion_dropdown2(self, event):
         opcion_seleccionada = self.dropdown2.get()
         print("N seleccionado de dropdown 2:", opcion_seleccionada)
-        imagen_cuantizada = cuantizacion(int(opcion_seleccionada), Image.open("imagen_gris.jpg"))
+        imagen_cuantizada = cuantizacion(int(opcion_seleccionada), Image.open("imagen_gris.jpg"), True)
         imagen_cuantizada.imprimir_valores()
 
     def reproducir_audio(self):
