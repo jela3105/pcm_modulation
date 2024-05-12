@@ -19,6 +19,12 @@ class GUI:
         opcion_seleccionada = self.dropdown2.get()
         print("N seleccionado de dropdown 2:", opcion_seleccionada)
 
+    def reproducir_audio(self, event):
+        print("reproducir audio original")
+
+    def reproducir_audio_recuantizado(self, event):
+        print("reproducir audio recuantizado")
+
     def crear_widgets(self):
         # Fila 1: Gráfica
         self.frame1 = tk.Frame(self.root)
@@ -37,10 +43,10 @@ class GUI:
         self.dropdown1.bind("<<ComboboxSelected>>", self.seleccion_dropdown1)
         self.dropdown1.pack(side=tk.LEFT, padx=10)
 
-        self.button1 = tk.Button(self.frame2, text="Reproducir audio original")
+        self.button1 = tk.Button(self.frame2, text="Reproducir audio original", command=self.reproducir_audio)
         self.button1.pack(side=tk.LEFT, padx=10)
 
-        self.button2 = tk.Button(self.frame2, text="Reproducir audio recuantizado")
+        self.button2 = tk.Button(self.frame2, text="Reproducir audio recuantizado", command=self.reproducir_audio_recuantizado)
         self.button2.pack(side=tk.LEFT, padx=10)
 
         # Fila 3: Dropdown de 8 números y dos imágenes
@@ -54,8 +60,8 @@ class GUI:
         self.dropdown2.pack(side=tk.LEFT, padx=10)
 
         # Cargamos las imágenes
-        self.title_label1 = tk.Label(self.frame3, text="Imagen 1")
-        self.title_label1.pack(side=tk.TOP, padx=10)
+        self.title_label1 = tk.Label(self.frame3, text="Imagen original")
+        self.title_label1.pack(side=tk.LEFT, padx=9)
         self.image1 = Image.open("imagen2.jpg")  # Reemplaza "image1.jpg" por la ruta de tu imagen
         self.image1 = self.image1.resize((300, 200), Image.ADAPTIVE)
         self.photo1 = ImageTk.PhotoImage(self.image1)
@@ -63,7 +69,7 @@ class GUI:
         self.label_image1.image = self.photo1
         self.label_image1.pack(side=tk.LEFT, padx=10)
 
-        self.title_label2 = tk.Label(self.frame3, text="Imagen 2")
+        self.title_label2 = tk.Label(self.frame3, text="Imagen recuantizada")
         self.title_label2.pack(side=tk.TOP, padx=10)
         self.image2 = Image.open("imagen2.jpg")  # Reemplaza "image2.jpg" por la ruta de tu imagen
         self.image2 = self.image2.resize((300, 200), Image.ADAPTIVE)
@@ -77,6 +83,7 @@ class GUI:
         if hasattr(self, 'canvas'):
             self.canvas.get_tk_widget().destroy()
 
+        print("actualizar grafica")
         # Generar nuevos datos para la gráfica
         x = np.linspace(0, 10, 100)
         y = np.cos(x)
