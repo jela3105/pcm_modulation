@@ -8,10 +8,10 @@ from PIL import Image, ImageTk
 class GUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Interfaz de tres filas")
-        self.create_widgets()
+        self.root.title("Opciones PCM")
+        self.crear_widgets()
 
-    def create_widgets(self):
+    def crear_widgets(self):
         # Fila 1: Gráfica
         self.frame1 = tk.Frame(self.root)
         self.frame1.pack(fill=tk.BOTH, expand=True)

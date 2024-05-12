@@ -1,7 +1,9 @@
 import cv2
+import tkinter as tk
 import matplotlib.pyplot as plt
 import sounddevice as sd
 import soundfile as sf
+from UI import GUI
 
 # Función para convertir una imagen a escala de grises
 def convertir_a_grises(imagen):
@@ -43,7 +45,7 @@ def convertir_mono(nombre_archivo_entrada, nombre_archivo_salida):
     sf.write(nombre_archivo_salida, audio_mono, fs)
     print(f"Archivo convertido y guardado como '{nombre_archivo_salida}'.")
 
-def main():
+def leer_datos():
     # Ruta de la imagen a leer
     ruta_imagen = "imagen2.jpg"
 
@@ -80,7 +82,7 @@ def main():
       
     plt.show()
          
-    # Grabacion de sonido    
+    # Grabacion de sonido   
     print("Inicio de grabacion")
     duracion = 10 # Durancion de grabacion en segundos
     fs = 8000 #frecuencia de muestreo
@@ -89,7 +91,16 @@ def main():
 
     # Leer audio
     print("Leyendo y convirtiendo audio estereo a mono")
-    convertir_mono("audio_estereo.mp3", "audio_mono.mp3")
+    convertir_mono("audio_estereo.mp3", "audio_mono.mp3")   
+
+def desplegar_interfaz():
+    root = tk.Tk()
+    gui = GUI(root)
+    root.mainloop()
+
+def main():
+    leer_datos()
+    desplegar_interfaz()
 
 if __name__ == "__main__":
     main()
