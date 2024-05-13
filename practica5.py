@@ -31,7 +31,7 @@ def grabar_audio(duracion, fs):
     print("Grabación completada.")
     print(f"Grabacion dos canales: {audio}")
     sf.write("grabacion_dos_canales.wav", audio, fs)
-    print(f"Grabación guardada.")
+    print("Grabación guardada.")
 
 def convertir_mono(nombre_archivo_entrada, nombre_archivo_salida):
     # Cargar el archivo de audio de dos canales

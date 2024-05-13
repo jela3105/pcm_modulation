@@ -42,3 +42,5 @@ class cuantizacion:
                 data_recuantizada.append(numero_cuantizacion * self.resolucion)
             print(len(set(data_recuantizada)))
             return data_recuantizada
+        else:
+            return self.data 

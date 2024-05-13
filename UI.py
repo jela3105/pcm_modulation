@@ -1,4 +1,5 @@
 import tkinter as tk
+import cv2
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -13,6 +14,7 @@ class GUI:
         self.root = root
         self.root.title("Opciones PCM")
         self.crear_widgets()
+        self.photo2 = None
     
     def reproducir_audio(self, ruta):
         pygame.mixer.init()
@@ -37,11 +39,13 @@ class GUI:
         print("N seleccionado de dropdown 2:", opcion_seleccionada)
         imagen_cuantizada = cuantizacion(int(opcion_seleccionada), Image.open("imagen_gris.jpg"), True)
         imagen_cuantizada.imprimir_valores()
+        nueva_img = ImageTk.PhotoImage(Image.open("imagen_gris.jpg").resize((300, 200), Image.ADAPTIVE))
+        self.label_image2.configure(image= nueva_img)
+        self.label_image2.image = nueva_img
 
     def reproducir_audio_original(self):
         print("reproducir audio original")
         self.reproducir_audio("audio_mono.mp3")
-        
 
     def reproducir_audio_recuantizado(self):
         print("reproducir audio recuantizado")
@@ -86,7 +90,7 @@ class GUI:
         # Cargamos las imágenes
         self.title_label1 = tk.Label(self.frame3, text="Imagen original")
         self.title_label1.pack(side=tk.LEFT, padx=9)
-        self.image1 = Image.open("imagen_gris.jpg")  # Reemplaza "image1.jpg" por la ruta de tu imagen
+        self.image1 = Image.open("imagen_gris.jpg") 
         self.image1 = self.image1.resize((300, 200), Image.ADAPTIVE)
         self.photo1 = ImageTk.PhotoImage(self.image1)
         self.label_image1 = tk.Label(self.frame3, image=self.photo1)
@@ -95,7 +99,7 @@ class GUI:
 
         self.title_label2 = tk.Label(self.frame3, text="Imagen recuantizada")
         self.title_label2.pack(side=tk.TOP, padx=10)
-        self.image2 = Image.open("imagen_gris.jpg")  # Reemplaza "image2.jpg" por la ruta de tu imagen
+        self.image2 = Image.open("imagen2.jpg") 
         self.image2 = self.image2.resize((300, 200), Image.ADAPTIVE)
         self.photo2 = ImageTk.PhotoImage(self.image2)
         self.label_image2 = tk.Label(self.frame3, image=self.photo2)
