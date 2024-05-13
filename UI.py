@@ -37,9 +37,13 @@ class GUI:
     def seleccion_dropdown2(self, event):
         opcion_seleccionada = self.dropdown2.get()
         print("N seleccionado de dropdown 2:", opcion_seleccionada)
-        imagen_cuantizada = cuantizacion(int(opcion_seleccionada), Image.open("imagen_gris.jpg"), True)
+        img_modificar = cv2.imread("imagen_gris.jpg")
+        img_modificar = cv2.cvtColor(img_modificar, cv2.COLOR_BGR2GRAY)
+        print(img_modificar)
+        imagen_cuantizada = cuantizacion(int(opcion_seleccionada), img_modificar, True)
         imagen_cuantizada.imprimir_valores()
-        nueva_img = ImageTk.PhotoImage(Image.open("imagen_gris.jpg").resize((300, 200), Image.ADAPTIVE))
+        cv2.imwrite("imagen_cuantizada.jpg", imagen_cuantizada.recuantizar_data())
+        nueva_img = ImageTk.PhotoImage(Image.open("imagen_cuantizada.jpg").resize((300, 200), Image.ADAPTIVE))
         self.label_image2.configure(image= nueva_img)
         self.label_image2.image = nueva_img
 
@@ -99,7 +103,7 @@ class GUI:
 
         self.title_label2 = tk.Label(self.frame3, text="Imagen recuantizada")
         self.title_label2.pack(side=tk.TOP, padx=10)
-        self.image2 = Image.open("imagen2.jpg") 
+        self.image2 = Image.open("imagen_gris.jpg") 
         self.image2 = self.image2.resize((300, 200), Image.ADAPTIVE)
         self.photo2 = ImageTk.PhotoImage(self.image2)
         self.label_image2 = tk.Label(self.frame3, image=self.photo2)

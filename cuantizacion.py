@@ -35,7 +35,7 @@ class cuantizacion:
         if not self.es_imagen:
             data_recuantizada = []
             for x in self.data:
-                numero_cuantizacion = x / self.resolucion
+                numero_cuantizacion = x // self.resolucion
                 residuo = x % self.resolucion
                 if residuo >= self.variacion_rango:
                     numero_cuantizacion = numero_cuantizacion + 1
@@ -43,4 +43,15 @@ class cuantizacion:
             print(len(set(data_recuantizada)))
             return data_recuantizada
         else:
-            return self.data 
+            data_recuantizada = np.copy(self.data)
+            for i, x in enumerate(self.data):
+                for j, y in enumerate(self.data[i]):
+
+                    numero_cuantizacion = self.data[i][j] // self.resolucion
+                    residuo = self.data[i][j] % self.resolucion
+                    if residuo >= self.variacion_rango:
+                        numero_cuantizacion = numero_cuantizacion + 1
+
+                    data_recuantizada[i][j] = numero_cuantizacion * self.resolucion
+            print("imagen recuantizada", data_recuantizada)
+            return data_recuantizada 
