@@ -40,4 +40,5 @@ class cuantizacion:
                 if residuo >= self.variacion_rango:
                     numero_cuantizacion = numero_cuantizacion + 1
                 data_recuantizada.append(numero_cuantizacion * self.resolucion)
+            print(len(set(data_recuantizada)))
             return data_recuantizada

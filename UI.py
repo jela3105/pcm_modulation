@@ -5,6 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from cuantizacion import cuantizacion
 import numpy as np
 import soundfile as sf
+import playsound
 from PIL import Image, ImageTk
 
 class GUI:
@@ -19,7 +20,8 @@ class GUI:
         audio, fs = sf.read("audio_mono.mp3")
         audio_cuantizado = cuantizacion(int(opcion_seleccionada), audio, False)
         audio_cuantizado.imprimir_valores()
-        sf.write("audio_recuantizado.mp3", audio_cuantizado.recuantizar_data(), fs)
+        sf.write("audio_recuantizado.mp3", np.ravel(audio_cuantizado.recuantizar_data()), fs)
+        self.desplegar_grafica()
 
     def seleccion_dropdown2(self, event):
         opcion_seleccionada = self.dropdown2.get()
@@ -29,9 +31,11 @@ class GUI:
 
     def reproducir_audio(self):
         print("reproducir audio original")
+        playsound.playsound("audio_mono.mp3")
 
     def reproducir_audio_recuantizado(self):
         print("reproducir audio recuantizado")
+        playsound.playsound("audio_recuantizado.mp3")
 
     def crear_widgets(self):
         # Fila 1: Gráfica
@@ -94,13 +98,11 @@ class GUI:
             self.canvas.get_tk_widget().destroy()
 
         print("actualizar grafica")
-        # Generar nuevos datos para la gráfica
-        x = np.linspace(0, 10, 100)
-        y = np.cos(x)
+        audio, fs = sf.read("audio_recuantizado.mp3")
 
         # Graficar los nuevos datos
-        plt.figure(figsize=(8,2))
-        plt.plot(x, y)
+        plt.figure(figsize=(12,2))
+        plt.plot(audio)
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.title('Audio recuantizado (mono)')
