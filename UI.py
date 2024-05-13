@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from cuantizacion import cuantizacion
 import numpy as np
 import soundfile as sf
-import playsound
+import pygame
 from PIL import Image, ImageTk
 
 class GUI:
@@ -13,6 +13,15 @@ class GUI:
         self.root = root
         self.root.title("Opciones PCM")
         self.crear_widgets()
+    
+    def reproducir_audio(self, ruta):
+        pygame.mixer.init()
+        pygame.mixer.music.load(ruta)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pass
+        pygame.mixer.music.stop()
+        pygame.mixer.quit()
 
     def seleccion_dropdown1(self, event):
         opcion_seleccionada = self.dropdown1.get()
@@ -29,13 +38,14 @@ class GUI:
         imagen_cuantizada = cuantizacion(int(opcion_seleccionada), Image.open("imagen_gris.jpg"), True)
         imagen_cuantizada.imprimir_valores()
 
-    def reproducir_audio(self):
+    def reproducir_audio_original(self):
         print("reproducir audio original")
-        playsound.playsound("audio_mono.mp3")
+        self.reproducir_audio("audio_mono.mp3")
+        
 
     def reproducir_audio_recuantizado(self):
         print("reproducir audio recuantizado")
-        playsound.playsound("audio_recuantizado.mp3")
+        self.reproducir_audio("audio_recuantizado.mp3")
 
     def crear_widgets(self):
         # Fila 1: Gráfica
@@ -56,7 +66,7 @@ class GUI:
         self.dropdown1.bind("<<ComboboxSelected>>", self.seleccion_dropdown1)
         self.dropdown1.pack(side=tk.LEFT, padx=10)
 
-        self.button1 = tk.Button(self.frame2, text="Reproducir audio original", command=self.reproducir_audio)
+        self.button1 = tk.Button(self.frame2, text="Reproducir audio original", command=self.reproducir_audio_original)
         self.button1.pack(side=tk.LEFT, padx=10)
 
         self.button2 = tk.Button(self.frame2, text="Reproducir audio recuantizado", command=self.reproducir_audio_recuantizado)
