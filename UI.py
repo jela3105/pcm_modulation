@@ -31,8 +31,9 @@ class GUI:
         audio, fs = sf.read("audio_mono.mp3")
         audio_cuantizado = cuantizacion(int(opcion_seleccionada), audio, False)
         audio_cuantizado.imprimir_valores()
-        sf.write("audio_recuantizado.mp3", np.ravel(audio_cuantizado.recuantizar_data()), fs)
-        self.desplegar_grafica()
+        resultado_audio = audio_cuantizado.recuantizar_data()
+        sf.write("audio_recuantizado.mp3", np.ravel(resultado_audio), fs)
+        self.desplegar_grafica(resultado_audio)
 
     def seleccion_dropdown2(self, event):
         opcion_seleccionada = self.dropdown2.get()
@@ -110,14 +111,12 @@ class GUI:
         self.label_image2.image = self.photo2
         self.label_image2.pack(side=tk.LEFT, padx=10)
 
-    def desplegar_grafica(self):
+    def desplegar_grafica(self, audio):
         # Limpiar la gráfica anterior si existe
         if hasattr(self, 'canvas'):
             self.canvas.get_tk_widget().destroy()
 
         print("actualizar grafica")
-        audio, fs = sf.read("audio_recuantizado.mp3")
-
         # Graficar los nuevos datos
         plt.figure(figsize=(12,2))
         plt.plot(audio)
