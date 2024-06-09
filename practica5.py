@@ -36,7 +36,7 @@ def grabar_audio(duracion, fs):
 def convertir_mono(nombre_archivo_entrada, nombre_archivo_salida):
     # Cargar el archivo de audio de dos canales
     audio, fs = sf.read(nombre_archivo_entrada)
-    audio_extraido = audio[int(0 * fs): int(10 * fs)]
+    audio_extraido = audio[int(0 * fs): int(5 * fs)]
 
     # Promediar los datos de los dos canales para obtener un solo canal
     audio_mono = (audio_extraido[:, 0] + audio_extraido[:, 1]) / 2.0
@@ -48,7 +48,7 @@ def convertir_mono(nombre_archivo_entrada, nombre_archivo_salida):
 
 def leer_datos():
     # Ruta de la imagen a leer
-    ruta_imagen = "imagen2.jpg"
+    ruta_imagen = "image.jpeg"
 
     # Leer la imagen
     imagen = cv2.imread(ruta_imagen)
