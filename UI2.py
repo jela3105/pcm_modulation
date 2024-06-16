@@ -7,6 +7,22 @@ from PIL import Image, ImageTk
 
 # Función para crear el gráfico del seno
 def create_sin_plot(parent):
+<<<<<<< HEAD
+=======
+    fig, ax = plt.subplots(figsize=(12, 3))
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+    ax.plot(x, y)
+    ax.set_title('Seno', fontsize=8)
+    ax.tick_params(axis='both', which='major', labelsize=6)
+    ax.tick_params(axis='both', which='minor', labelsize=6)
+    canvas = FigureCanvasTkAgg(fig, master=parent)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.LEFT)
+
+# Función para crear el gráfico del coseno
+def create_cos_plot(parent):
+>>>>>>> parent of 41f6eb4 (Plot senal binaria y mostar imagenes)
     fig, ax = plt.subplots(figsize=(12, 3))
     x = np.linspace(0, 10, 100)
     y = np.sin(x)
@@ -52,7 +68,7 @@ def create_sin_plot(parent):
     dropdown1 = ttk.Combobox(frame_row1, values=["Imagen", "Audio"])
     dropdown1.pack(side=tk.LEFT, padx=10)
     
-    crear_senal_modulada(frame_row1)
+    create_sin_plot(frame_row1)
 
         # Segunda fila: Dropdown y gráfico de coseno
         self.frame_row2 = tk.Frame(self.root)
@@ -67,8 +83,8 @@ def create_sin_plot(parent):
         self.frame_row3 = tk.Frame(self.root)
         self.frame_row3.pack(fill=tk.X, pady=10)
 
-    create_image_label(frame_row3, "imagen_gris.jpg")  
-    create_image_label(frame_row3, "imagen_cuantizada.jpg")  
+    create_image_label(frame_row3, "image.jpeg")  # Reemplaza con la ruta de tu imagen
+    create_image_label(frame_row3, "image.jpeg")  # Reemplaza con la ruta de tu imagen
 
         self.dropdown3 = ttk.Combobox(self.frame_row3, values=["BPSK", "8PSK", "16QAM"])
         self.dropdown3.pack(side=tk.LEFT, padx=10)
