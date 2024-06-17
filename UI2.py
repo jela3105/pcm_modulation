@@ -15,6 +15,8 @@ class UI2:
         self.frame_row1.pack(fill=tk.X, pady=5)
         self.dropdown1 = ttk.Combobox(self.frame_row1, values=["Imagen", "Audio"])
         self.dropdown1.pack(side=tk.LEFT, padx=10)
+        self.dropdown1.bind("<<ComboboxSelected>>", self.seleccion_dropdown1)
+        self.dropdown1.current(0)
         self.crear_senal_modulada(self.frame_row1)
 
         # Segunda fila: Dropdown y gráfico de coseno
@@ -27,10 +29,16 @@ class UI2:
         # Tercera fila: Dos imágenes y dropdown
         self.frame_row3 = tk.Frame(root)
         self.frame_row3.pack(fill=tk.X, pady=10)
-        self.create_image_label(self.frame_row3, "imagen_gris.jpg")
-        self.create_image_label(self.frame_row3, "imagen_cuantizada.jpg")
+        self.imagen1_label = self.create_image_label(self.frame_row3, "imagen_gris.jpg")
+        self.imagen2_label = self.create_image_label(self.frame_row3, "imagen_cuantizada.jpg")
         self.dropdown3 = ttk.Combobox(self.frame_row3, values=["BPSK", "8PSK", "16QAM"])
         self.dropdown3.pack(side=tk.LEFT, padx=10)
+        self.dropdown3.current(0)
+
+        self.button1 = tk.Button(self.frame_row3, text="Audio original")
+        self.button2 = tk.Button(self.frame_row3, text="Audio recuantizado")
+        self.button1.pack_forget()
+        self.button2.pack_forget()
 
     # Función para crear el gráfico del seno
     def crear_senal_modulada(self, parent):
@@ -68,6 +76,19 @@ class UI2:
         label = tk.Label(parent, image=photo)
         label.image = photo
         label.pack(side=tk.LEFT)
+        return label
+    
+    def seleccion_dropdown1(self, event):
+        if self.dropdown1.get() == "Audio":
+            self.imagen1_label.pack_forget()
+            self.imagen2_label.pack_forget()
+            self.button1.pack(side=tk.LEFT, padx=5)
+            self.button2.pack(side=tk.LEFT, padx=5)
+        else:
+            self.button1.pack_forget()
+            self.button2.pack_forget()
+            self.imagen1_label.pack(side=tk.LEFT)
+            self.imagen2_label.pack(side=tk.LEFT)
 
 def main():
     root = tk.Tk()
