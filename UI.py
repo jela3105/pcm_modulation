@@ -4,6 +4,7 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from cuantizacion import cuantizacion
+from grafica_BPSK import MBPSK
 import numpy as np
 import soundfile as sf
 import pygame

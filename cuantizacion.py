@@ -55,9 +55,9 @@ class cuantizacion:
                     numero_cuantizacion = numero_cuantizacion + 1
                 data_recuantizada.append(numero_cuantizacion * self.resolucion)
                 if x < 0:
-                    binario = binario + " " + "0" + self.decimal_a_binario(numero_cuantizacion)
+                    binario = binario + "0" + self.decimal_a_binario(numero_cuantizacion)
                 else:
-                    binario = binario + " " + "1" + self.decimal_a_binario(numero_cuantizacion)
+                    binario = binario + "1" + self.decimal_a_binario(numero_cuantizacion)
 
             with open("audio_codigo_pcm.txt", "w") as archivo:
                 archivo.write(binario)
@@ -76,7 +76,7 @@ class cuantizacion:
                         numero_cuantizacion = numero_cuantizacion + 1
 
                     data_recuantizada[i][j] = numero_cuantizacion * self.resolucion
-                    binario = binario + " " + self.decimal_a_binario(numero_cuantizacion)
+                    binario = binario + self.decimal_a_binario(numero_cuantizacion)
 
             print("binario", self.decimal_a_binario(2))
             with open("imagen_codigo_pcm.txt", "w") as archivo:
