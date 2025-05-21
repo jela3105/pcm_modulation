@@ -146,26 +146,31 @@ class GUI:
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(pady=10)
 
-    def seleccionar_microfono_2_canales_real(self,fs=8000, prueba_segundos=1):
+    def seleccionar_microfono_2_canales_real(self, fs=8000, prueba_segundos=1):
         for i, device in enumerate(sd.query_devices()):
+            name = device['name'].lower()
             if device['max_input_channels'] >= 2:
+                # Evitar dispositivos virtuales
+                if any(virtual in name for virtual in ["virtual", "assign", "asignador", "wave", "oculus", "mix", "speaker"]):
+                    nombre = device["name"]
+                    print(f"Dispositivo {i} ignorado por nombre sospechoso: {nombre}")
+
+                    continue
                 try:
                     print(f"Probando micrófono {i}: {device['name']}")
                     sd.default.device = (i, None)
-                    
-                    # Graba unos milisegundos para verificar si graba algo distinto de 0
                     prueba = sd.rec(int(prueba_segundos * fs), samplerate=fs, channels=2, dtype='float64')
                     sd.wait()
-                    
-                    if np.any(prueba):  # Si hay al menos un valor distinto de 0
+
+                    if np.any(prueba):
                         print(f"Micrófono válido encontrado: {device['name']} (índice {i})")
                         return i
-                    
-                    print("Micrófono sin señal de audio. Se descarta.")
+                    else:
+                        print("Micrófono sin señal de audio. Se descarta.")
                 except Exception as e:
                     print(f"Fallo con índice {i}: {e}")
-        
-        raise RuntimeError("No se encontró un micrófono real de 2 canales que funcione.")
+        raise RuntimeError("No se encontró un micrófono físico de 2 canales que funcione.")
+
     
     
     def grabar_audio_estereo(self, duracion=10, fs=8000):
