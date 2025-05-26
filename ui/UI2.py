@@ -152,7 +152,7 @@ class UI2:
             audio_cuantizado = cuantizacion(int(numero_n_seleccionado), audio, False)
             audio_cuantizado.imprimir_valores()
             resultado_audio = audio_cuantizado.recuantizar_data()
-            sf.write("audio_recuantizado.mp3", np.ravel(resultado_audio), fs)
+            sf.write("audio/audio_recuantizado.mp3", np.ravel(resultado_audio), fs)
 
     # Función para crear el gráfico de bits
     def crear_senal_pcm(self, parent, bits_a_usar):
