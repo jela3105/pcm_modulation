@@ -10,6 +10,9 @@ import soundfile as sf
 import pygame
 import sounddevice as sd
 from PIL import Image, ImageTk
+from ui.UI2 import UI2
+import tkinter as tk
+
 
 class GUI:
     def __init__(self, root):
@@ -127,6 +130,14 @@ class GUI:
         )
         self.boton_reproducir_mono.pack(side=tk.LEFT, padx=10)
 
+        #Graficas
+        self.boton_ir_ui2 = tk.Button(
+            self.root,
+            text="Visualizar Modulaciones",
+            command=self.abrir_ui2,
+            **estilo_boton
+        )
+        self.boton_ir_ui2.pack(pady=10)
 
     def desplegar_grafica(self, audio=None):
         if hasattr(self, 'canvas') and self.canvas:
@@ -192,6 +203,14 @@ class GUI:
             audio_mono = audio
         sf.write(nombre_salida, audio_mono, fs)
         print(f"Audio convertido a mono y guardado como '{nombre_salida}'")
+    
+    def abrir_ui2(self):
+        self.root.withdraw()  # Oculta la ventana actual
+        nueva_ventana = tk.Toplevel(self.root)  # Usa una subventana
+        UI2(nueva_ventana)
+
+        # Asegúrate de que al cerrar UI2, se cierre también la app o se reabra la UI principal
+        nueva_ventana.protocol("WM_DELETE_WINDOW", lambda: [nueva_ventana.destroy(), self.root.deiconify()])
 
 
 def main():

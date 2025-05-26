@@ -41,12 +41,86 @@ class UI2:
         self.dropdown3 = ttk.Combobox(self.frame_row3, values=["BPSK", "8PSK", "16QAM"])
         self.dropdown3.pack(side=tk.LEFT, padx=10)
         self.dropdown3.current(0)
-        self.dropdown3.bind("<<ComboboxSelected>>", self.mostrar_graficas_modulacion)
-
+        
         self.button1 = tk.Button(self.frame_row3, text="Audio original")
         self.button2 = tk.Button(self.frame_row3, text="Audio recuantizado")
         self.button1.pack_forget()
         self.button2.pack_forget()
+
+        # === Botones para mostrar gráficas ===
+        self.botones_frame = tk.Frame(root)
+        self.botones_frame.pack(pady=10)
+
+        self.btn_pcm = tk.Button(
+            self.botones_frame, text="Mostrar gráfica código binario",
+            command=lambda: self.mostrar_grafica_binaria_externa(21),
+            bg="#2196F3", fg="white", font=("Arial", 10), padx=10, pady=5
+        )
+        self.btn_pcm.pack(side=tk.LEFT, padx=10)
+
+        self.btn_modulacion = tk.Button(
+            self.botones_frame, text="Mostrar gráfica de modulación",
+            command=lambda: self.mostrar_graficas_modulacion(None),
+            bg="#4CAF50", fg="white", font=("Arial", 10), padx=10, pady=5
+        )
+        self.btn_modulacion.pack(side=tk.LEFT, padx=10)
+
+        self.label_vista = tk.Label(root)
+
+    def mostrar_grafica_binaria_externa(self, bits_a_usar=28):
+        if self.dropdown1.get() == "Imagen":
+            nombre_archivo = "images/imagen_codigo_pcm.txt"
+        else:
+            nombre_archivo = "audio/audio_codigo_pcm.txt"
+
+        with open(nombre_archivo, 'r', encoding="UTF-8") as file:
+            primeros_chars = file.read(bits_a_usar)
+
+        primeros_bits = [int(char) for char in primeros_chars]
+
+        # Cierra todas las figuras abiertas antes de abrir una nueva
+        plt.close('all')
+
+        plt.figure(figsize=(12, 4))
+        plt.step(np.arange(len(primeros_bits)), primeros_bits, where='mid')
+        plt.title('Señal modulada (código binario)')
+        plt.xlabel('Tiempo')
+        plt.ylabel('Valor')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+    def mostrar_grafica_binaria(self):
+        # Limpia imagen previa del label
+        self.label_vista.configure(image=None)
+        
+        # Genera la imagen
+        self.crear_senal_pcm_y_guardar(bits_a_usar=28)
+
+        # Carga imagen sin escalarla a algo chico
+        img = Image.open("graphs/senal_binaria.png")
+        img_tk = ImageTk.PhotoImage(img)
+
+        # Muestra
+        self.label_vista.configure(image=img_tk)
+        self.label_vista.image = img_tk
+
+
+    def mostrar_grafica_modulacion(self):
+        bits_usados = self.crear_senal_pcm_y_guardar()
+        tecnica = self.dropdown3.get()
+    
+        if tecnica == "BPSK":
+            MBPSK(bits_usados, output_path="graphs/senal_modulada.png")
+        elif tecnica == "8PSK":
+            M8PSK(bits_usados, output_path="graphs/senal_modulada.png")
+        elif tecnica == "16QAM":
+            M16QAM(bits_usados, output_path="graphs/senal_modulada.png")
+
+        img = Image.open("graphs/senal_modulada.png").resize((600, 200), Image.ANTIALIAS)
+        img_tk = ImageTk.PhotoImage(img)
+        self.label_vista.configure(image=img_tk)
+        self.label_vista.image = img_tk
     
     # modifica los valores de las graficas
     def mostrar_graficas_modulacion(self, event):
@@ -74,12 +148,11 @@ class UI2:
             self.imagen2_label.configure(image= nueva_img)
             self.imagen2_label.image = nueva_img
         else:
-            audio, fs = sf.read("audio_mono.mp3")
+            audio, fs = sf.read("audio/audio_mono.wav")
             audio_cuantizado = cuantizacion(int(numero_n_seleccionado), audio, False)
             audio_cuantizado.imprimir_valores()
             resultado_audio = audio_cuantizado.recuantizar_data()
             sf.write("audio_recuantizado.mp3", np.ravel(resultado_audio), fs)
-        self.mostrar_graficas_modulacion(None)
 
     # Función para crear el gráfico de bits
     def crear_senal_pcm(self, parent, bits_a_usar):
@@ -107,6 +180,27 @@ class UI2:
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.LEFT)
         return primeros_bits
+    
+    def crear_senal_pcm_y_guardar(self, tipo="Imagen", bits_a_usar=28):
+        if self.dropdown1.get() == "Imagen":
+            nombre_archivo = "images/imagen_codigo_pcm.txt"
+        else:
+            nombre_archivo = "audio/audio_codigo_pcm.txt"
+
+        with open(nombre_archivo, 'r', encoding="UTF-8") as file:
+            primeros_chars = file.read(bits_a_usar)
+
+        primeros_bits = [int(char) for char in primeros_chars]
+
+        plt.figure(figsize=(14, 5))
+        plt.step(np.arange(len(primeros_bits)), primeros_bits, where='mid')
+        plt.title('Señal modulada (código binario)')
+        plt.xlabel('Tiempo')
+        plt.ylabel('Valor')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig("graphs/senal_binaria.png", dpi=200)
+        plt.close()
 
     # Función para cargar una imagen
     def create_image_label(self, parent, image_path):
@@ -129,7 +223,6 @@ class UI2:
             self.button2.pack_forget()
             self.imagen1_label.pack(side=tk.LEFT)
             self.imagen2_label.pack(side=tk.LEFT)
-        self.mostrar_graficas_modulacion(event)
 
 def main():
     root = tk.Tk()
