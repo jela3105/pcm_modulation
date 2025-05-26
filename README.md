@@ -1,4 +1,4 @@
-# PCM Modulation Interface 🎛️
+# PCM Modulation Interface
 
 Este proyecto implementa una interfaz gráfica interactiva para el procesamiento de señales PCM (Modulación por Código de Pulsos), permitiendo trabajar con imágenes y audio para:
 
@@ -10,19 +10,19 @@ Este proyecto implementa una interfaz gráfica interactiva para el procesamiento
 ## Capturas de pantalla
 
 ### Interfaz principal de procesamiento PCM
-![PCM Processing Interface](images/PCM%20Processing%20Interface.png)
+![PCM Processing Interface](assets/PCM%20Processing%20Interface.png)
 
 ### Interfaz de modulación digital
-![PCM Modulation Interface](images/PCM%20Modulation%20Interface.png)
+![PCM Modulation Interface](assets/PCM%20Modulation%20Interface.png)
 
 ### Gráfica de código binario generado
-![Binarie Graphic](images/Binarie%20Graphic.png)
+![Binarie Graphic](assets/Binarie%20Graphic.png)
 
 ### Gráfica de señal modulada
-![graphic Modulation technique](images/graphic%20Modulation%20technique.png)
+![graphic Modulation technique](assets/graphic%20Modulation%20technique.png)
 
 ### Gráfica de la señal completa
-![Graphics Signal](images/Graphics%20Signal.png)
+![Graphics Signal](assets/Graphics%20Signal.png)
 
 Nota: Las imágenes deben estar en la carpeta `images/` y sin espacios
 
