@@ -1,0 +1,33 @@
+# === Carpeta de audios generados temporalmente ===
+audio/grabacion_dos_canales.wav
+audio/grabacion_mono.wav
+audio/audio_recuantizado.mp3
+
+# === Mantener solo estos archivos (para UI2) ===
+!audio/audio_mono.mp3
+!audio/audio_codigo_pcm.txt
+!images/imagen_codigo_pcm.txt
+!images/imagen_gris.jpg
+!images/imagen_cuantizada.jpg
+
+# === Archivos de sistema y temporales ===
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+*.bak
+
+# === Archivos ocultos de sistema operativo ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Archivos de configuración personal ===
+.vscode/
+.idea/
+*.swp
+
+# === Virtual environments y entorno local ===
+venv/
+.env/
