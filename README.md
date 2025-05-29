@@ -41,5 +41,5 @@ Nota: Las imágenes deben estar en la carpeta `images/` y sin espacios
 
 1. Clona este repositorio:
 ```bash
-git clone https://github.com/tu_usuario/pcm_modulation.git
+git clone https://github.com/EderZG/pcm_modulation.git
 cd pcm_modulation
